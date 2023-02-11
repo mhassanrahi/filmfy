@@ -17,7 +17,7 @@ function App() {
           <Route path="/" exact component={Movies} />
           <Route path="/movies/:id" exact component={MovieInformation} />
           <Route path="/actors/:id" exact component={Actors} />
-          <Route path="/profile" exact component={Profile} />
+          <Route path="/profile/:id" exact component={Profile} />
         </Switch>
       </main>
     </div>
