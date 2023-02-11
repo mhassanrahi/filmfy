@@ -1,8 +1,12 @@
 import React from 'react';
+import { CssBaseline } from '@mui/material';
 
 function App() {
   return (
-    <div>App</div>
+    <div>
+      <CssBaseline />
+      <h1>App</h1>
+    </div>
   );
 }
 
