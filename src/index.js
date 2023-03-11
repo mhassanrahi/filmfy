@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import App from './components/App';
 
-const theme = createTheme();
+const theme = createTheme({});
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
