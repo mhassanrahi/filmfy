@@ -2,6 +2,8 @@ import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import {
+  Box,
+  CircularProgress,
   Divider,
   List,
   ListItem,
@@ -13,6 +15,7 @@ import {
 import useStyles from './styles';
 import RedLogo from '../../assets/images/filmflyRed.png';
 import BlueLogo from '../../assets/images/filmFlyBlue.png';
+import { useGetGenresQuery } from '../../services/tmdb';
 
 const categories = [
   {
@@ -29,29 +32,11 @@ const categories = [
   },
 ];
 
-const demoCategories = [
-  {
-    label: 'Comedy',
-    value: 'comedy',
-  },
-  {
-    label: 'Action',
-    value: 'action',
-  },
-  {
-    label: 'Adventure',
-    value: 'adventure',
-  },
-  {
-    label: 'Animation',
-    value: 'animation',
-  },
-];
-
 function Sidebar() {
   const theme = useTheme();
   const classes = useStyles();
   const isDarkMode = theme.palette.mode === 'dark';
+  const { data, isFetching } = useGetGenresQuery();
 
   return (
     <>
@@ -86,20 +71,27 @@ function Sidebar() {
 
       <List>
         <ListSubheader> Genres</ListSubheader>
-        {demoCategories.map(({ label, value }) => (
-          <Link key={value} className={classes.links} to="/">
-            <ListItem onClick={() => {}} button>
-              {/* <ListItemIcon>
+        {
+          isFetching ? (
+            <Box display="flex" justifyContent="center">
+              <CircularProgress size="4rem" />
+            </Box>
+          )
+            : data.genres.map(({ name, id }) => (
+              <Link key={id} className={classes.links} to="/">
+                <ListItem onClick={() => {}} button>
+                  {/* <ListItemIcon>
                 <img
                   src={RedLogo}
                   className={classes.genreImage}
                   height="30"
                 />
               </ListItemIcon> */}
-              <ListItemText primary={label} />
-            </ListItem>
-          </Link>
-        ))}
+                  <ListItemText primary={name} />
+                </ListItem>
+              </Link>
+            ))
+}
       </List>
     </>
   );
