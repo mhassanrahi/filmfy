@@ -12,14 +12,14 @@ import history from './history.png';
 import mystery from './mystery.png';
 import music from './music.png';
 import romance from './romance.png';
-import scienceFiction from './science fiction.png';
+import scienceFiction from './science _fiction.png';
 import thriller from './thriller.png';
-import tvMovie from './tv movie.png';
+import tvMovie from './tv_movie.png';
 import war from './war.png';
 import western from './western.png';
 
 import popular from './popular.png';
-import topRated from './top rated.png';
+import topRated from './top_rated.png';
 import upcoming from './upcoming.png';
 
 export default {
@@ -43,6 +43,6 @@ export default {
   war,
   western,
   popular,
-  'top rated': topRated,
+  top_rated: topRated,
   upcoming,
 };

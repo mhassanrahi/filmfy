@@ -13,11 +13,13 @@ import {
   ListSubheader,
 } from '@mui/material';
 
+import { useDispatch } from 'react-redux';
 import useStyles from './styles';
 import RedLogo from '../../assets/images/filmflyRed.png';
 import BlueLogo from '../../assets/images/filmFlyBlue.png';
 import { useGetGenresQuery } from '../../services/tmdb';
 import genreIcons from '../../assets/icons';
+import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 
 const categories = [
   {
@@ -26,7 +28,7 @@ const categories = [
   },
   {
     label: 'Top Rated',
-    value: 'top rated',
+    value: 'top_rated',
   },
   {
     label: 'Upcoming',
@@ -35,6 +37,7 @@ const categories = [
 ];
 
 function Sidebar() {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const classes = useStyles();
   const isDarkMode = theme.palette.mode === 'dark';
@@ -45,7 +48,7 @@ function Sidebar() {
       <Link to="/" className={classes.imageLink}>
         <img
           className={classes.image}
-          alt="Filmfly "
+          alt="Filmfly"
           src={isDarkMode ? RedLogo : BlueLogo}
         />
       </Link>
@@ -55,7 +58,7 @@ function Sidebar() {
         <ListSubheader> Categories</ListSubheader>
         {categories.map(({ label, value }) => (
           <Link key={value} className={classes.links} to="/">
-            <ListItem onClick={() => {}} button>
+            <ListItem onClick={() => dispatch(selectGenreOrCategory(value))} button>
               <ListItemIcon>
                 <img
                   src={genreIcons[value?.toLowerCase()]}
@@ -81,7 +84,7 @@ function Sidebar() {
           )
             : data.genres.map(({ name, id }) => (
               <Link key={id} className={classes.links} to="/">
-                <ListItem onClick={() => {}} button>
+                <ListItem onClick={() => dispatch(selectGenreOrCategory(id))} button>
                   <ListItemIcon>
                     <img
                       src={genreIcons[name?.toLowerCase()]}
