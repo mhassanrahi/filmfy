@@ -7,6 +7,7 @@ import {
   Divider,
   List,
   ListItem,
+  ListItemIcon,
   // ListItemIcon,
   ListItemText,
   ListSubheader,
@@ -16,6 +17,7 @@ import useStyles from './styles';
 import RedLogo from '../../assets/images/filmflyRed.png';
 import BlueLogo from '../../assets/images/filmFlyBlue.png';
 import { useGetGenresQuery } from '../../services/tmdb';
+import genreIcons from '../../assets/icons';
 
 const categories = [
   {
@@ -24,7 +26,7 @@ const categories = [
   },
   {
     label: 'Top Rated',
-    value: 'topRated',
+    value: 'top rated',
   },
   {
     label: 'Upcoming',
@@ -54,13 +56,13 @@ function Sidebar() {
         {categories.map(({ label, value }) => (
           <Link key={value} className={classes.links} to="/">
             <ListItem onClick={() => {}} button>
-              {/* <ListItemIcon>
+              <ListItemIcon>
                 <img
-                  src={RedLogo}
+                  src={genreIcons[value?.toLowerCase()]}
                   className={classes.genreImage}
                   height="30"
                 />
-              </ListItemIcon> */}
+              </ListItemIcon>
               <ListItemText primary={label} />
             </ListItem>
           </Link>
@@ -80,13 +82,13 @@ function Sidebar() {
             : data.genres.map(({ name, id }) => (
               <Link key={id} className={classes.links} to="/">
                 <ListItem onClick={() => {}} button>
-                  {/* <ListItemIcon>
-                <img
-                  src={RedLogo}
-                  className={classes.genreImage}
-                  height="30"
-                />
-              </ListItemIcon> */}
+                  <ListItemIcon>
+                    <img
+                      src={genreIcons[name?.toLowerCase()]}
+                      className={classes.genreImage}
+                      height="30"
+                    />
+                  </ListItemIcon>
                   <ListItemText primary={name} />
                 </ListItem>
               </Link>
