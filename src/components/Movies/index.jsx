@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 import MovieList from './MovieList';
 import { useGetMoviesQuery } from '../../services/tmdb';
 
 function Movies() {
-  const { data, error, isFetching } = useGetMoviesQuery();
+  const [page, setPage] = useState(1);
+  const { genreIdOrCategoryName } = useSelector(
+    (state) => state.currentGenreOrCategory,
+  );
+  const { data, error, isFetching } = useGetMoviesQuery({
+    genreIdOrCategoryName,
+    page,
+  });
+  console.log({ setPage });
+
   if (isFetching) {
     return (
       <Box display="flex" justifyContent="center">

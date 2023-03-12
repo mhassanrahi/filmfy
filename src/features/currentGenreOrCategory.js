@@ -3,14 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 export const genreOrCategory = createSlice({
   name: 'genreOrCategory',
   initialState: {
-    name: '',
+    genreIdOrCategoryName: 'popular',
     page: 1,
     searchQuery: '',
   },
 
   reducers: {
     selectGenreOrCategory: (state, action) => {
-      console.log({ action, state });
+      state.genreIdOrCategoryName = action.payload;
     },
   },
 });
