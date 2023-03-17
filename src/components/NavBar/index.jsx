@@ -5,7 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 
 import useStyles from './styles';
-import Sidebar from '../Sidebar';
+// eslint-disable-next-line import/no-cycle
+import { Search, Sidebar } from '..';
 
 function Navbar() {
   const [mobileOpen, setMobilePhone] = useState(false);
@@ -44,7 +45,9 @@ function Navbar() {
               ? <Brightness7 />
               : <Brightness4 />}
           </IconButton>
-          Search...
+          {
+            !isMobile && <Search />
+          }
           <div>
             {isAuthenticated
               ? (
@@ -72,6 +75,9 @@ function Navbar() {
                 </Button>
               )}
           </div>
+          {
+            isMobile && <Search />
+          }
         </Toolbar>
 
       </AppBar>
