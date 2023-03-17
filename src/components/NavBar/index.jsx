@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, Avatar, Button, Drawer, IconButton, Toolbar, useMediaQuery } from '@mui/material';
 import { AccountCircle, Brightness4, Brightness7, Menu } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from './styles';
 // eslint-disable-next-line import/no-cycle
 import { Search, Sidebar } from '..';
+import { createSessionId, fetchToken, getUserData } from '../../utils';
+import { setUser } from '../../features/auth';
 
 function Navbar() {
   const [mobileOpen, setMobilePhone] = useState(false);
@@ -14,7 +17,28 @@ function Navbar() {
   const isMobile = useMediaQuery('(max-width:600px)');
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark';
-  const isAuthenticated = false;
+  // const isAuthenticated = false;
+  const token = localStorage.getItem('token');
+  const sessionIdFromLocalStorage = localStorage.getItem('session_id');
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const loginUser = async () => {
+      if (token) {
+        let userData;
+        if (sessionIdFromLocalStorage) {
+          userData = await getUserData();
+        } else {
+          await createSessionId();
+          userData = await getUserData();
+        }
+        dispatch(setUser(userData));
+      }
+    };
+
+    loginUser();
+  }, [token]);
 
   return (
     <>
@@ -54,7 +78,7 @@ function Navbar() {
                 <Button
                   color="inherit"
                   component={Link}
-                  to="/profile/:id"
+                  to={`/profile/${user.id}`}
                   className={classes.linkButton}
                   onClick={() => { }}
                 >
@@ -70,7 +94,7 @@ function Navbar() {
                 </Button>
               )
               : (
-                <Button color="inherit" onClick={() => { }}>
+                <Button color="inherit" onClick={fetchToken}>
                   Login &nbsp; <AccountCircle />
                 </Button>
               )}
