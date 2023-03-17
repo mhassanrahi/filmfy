@@ -13,7 +13,7 @@ function Movie({ movie, index }) {
   return (
     <Grid item sm={12} lg={3} xl={2} className={classes.movie}>
       <Grow in key={index} timeout={timeout}>
-        <Link className={classes.link} to={`/movie/${movie.id}`}>
+        <Link className={classes.link} to={`/movies/${movie.id}`}>
           <img
             alt={movie.title}
             className={classes.image}
