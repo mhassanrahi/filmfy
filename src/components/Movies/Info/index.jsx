@@ -21,10 +21,14 @@ import {
   Remove,
   Theaters,
 } from '@mui/icons-material';
-import { useGetMovieQuery } from '../../../services/tmdb';
+import {
+  useGetMovieQuery,
+  useGetRecommendationsQuery,
+} from '../../../services/tmdb';
 import useStyles from './styles';
 import genreIcons from '../../../assets/icons';
 import { selectGenreOrCategory } from '../../../features/currentGenreOrCategory';
+import MovieList from '../MovieList';
 
 function MovieInfo() {
   const { id } = useParams();
@@ -32,6 +36,10 @@ function MovieInfo() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const { data: recommendations } = useGetRecommendationsQuery({
+    id,
+    list: '/recommendations',
+  });
   const isMovieFavorited = true;
   const isMovieWatchListed = true;
 
@@ -105,10 +113,7 @@ function MovieInfo() {
                 className={classes.genreImage}
                 height="30"
               />
-              <Typography
-                color="textPrimary"
-                variant="subtitle1"
-              >
+              <Typography color="textPrimary" variant="subtitle1">
                 {genre?.name}
               </Typography>
             </Link>
@@ -233,7 +238,8 @@ function MovieInfo() {
                     style={{
                       textDecoration: 'none',
                     }}
-                  >Back
+                  >
+                    Back
                   </Typography>
                 </Button>
               </ButtonGroup>
@@ -241,6 +247,21 @@ function MovieInfo() {
           </div>
         </Grid>
       </Grid>
+
+      {/* Recommended Movies */}
+      <Box marginTop="5rem" width="100%">
+        <Typography variant="h3" align="center" gutterBottom>
+          You might also like
+        </Typography>
+        {recommendations ? (
+          <MovieList
+            movies={recommendations.results?.slice(0, 12)}
+            noOfMoives={12}
+          />
+        ) : (
+          <Box>Sorry, nothing found.</Box>
+        )}
+      </Box>
     </Grid>
   );
 }
