@@ -203,7 +203,11 @@ function MovieInfo() {
                 >
                   IMDB
                 </Button>
-                <Button onClick={() => setOpen(true)} href="#" endIcon={<Theaters />}>
+                <Button
+                  onClick={() => setOpen(true)}
+                  href="#"
+                  endIcon={<Theaters />}
+                >
                   Trailer
                 </Button>
               </ButtonGroup>
@@ -265,27 +269,23 @@ function MovieInfo() {
         )}
       </Box>
 
-      <Modal
-        closeAfterTransition
-        className={classes.modal}
-        open={open}
-        onClose={() => setOpen(false)}
-      >
-        {
-        data?.videos?.results?.length && (
-          <iframe
-            autoPlay
-            className={classes.video}
-            title="Trailer"
-            src={
-              `https://www.youtube.com/embed/${data.videos.results[0].key}`
-            }
-            allow="autoplay"
-          />
-        )
-      }
-
-      </Modal>
+      {data?.videos?.results?.length
+        && typeof data.videos.results[0].key === 'string' && (
+          <Modal
+            closeAfterTransition
+            className={classes.modal}
+            open={open}
+            onClose={() => setOpen(false)}
+          >
+            <iframe
+              autoPlay
+              className={classes.video}
+              title="Trailer"
+              src={`https://www.youtube.com/embed/${data.videos.results[0].key}`}
+              allow="autoplay"
+            />
+          </Modal>
+      )}
     </Grid>
   );
 }
