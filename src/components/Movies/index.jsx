@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import MovieList from './MovieList';
 import { useGetMoviesQuery } from '../../services/tmdb';
+// eslint-disable-next-line import/no-cycle
+import { MovieList, Pagination } from '..';
 
 function Movies() {
   const [page, setPage] = useState(1);
@@ -14,7 +15,6 @@ function Movies() {
     page,
     searchQuery,
   });
-  console.log({ setPage });
 
   if (isFetching) {
     return (
@@ -43,6 +43,11 @@ function Movies() {
   return (
     <div>
       <MovieList movies={data?.results} />
+      <Pagination
+        page={page}
+        setPage={setPage}
+        totalPages={data?.total_pages}
+      />
     </div>
   );
 }
