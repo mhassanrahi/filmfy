@@ -29,7 +29,8 @@ import {
 import useStyles from './styles';
 import genreIcons from '../../../assets/icons';
 import { selectGenreOrCategory } from '../../../features/currentGenreOrCategory';
-import MovieList from '../MovieList';
+// eslint-disable-next-line import/no-cycle
+import { MovieList } from '../..';
 
 function MovieInfo() {
   const { id } = useParams();

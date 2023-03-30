@@ -1,23 +1,25 @@
 import { ArrowBack } from '@mui/icons-material';
 import { Box, Button, CircularProgress, Grid, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   useGetActorDetailsQuery,
   useGetMoviesByActorIdQuery,
 } from '../../services/tmdb';
-import MovieList from '../Movies/MovieList';
+// eslint-disable-next-line import/no-cycle
+import { MovieList, Pagination } from '..';
 import useStyles from './styles';
 
 function Actors() {
   const { id } = useParams();
   const history = useHistory();
   const classes = useStyles();
+  const [page, setPage] = useState(1);
 
   const { data, isFetching, error } = useGetActorDetailsQuery(id);
   const { data: moviesByActor } = useGetMoviesByActorIdQuery({
     id,
-    page: 1,
+    page,
   });
 
   if (isFetching) {
@@ -109,6 +111,12 @@ function Actors() {
           moviesByActor?.results.length
           && <MovieList movies={moviesByActor.results.slice(0, 12)} />
         }
+
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalPages={moviesByActor?.total_pages}
+        />
       </Box>
     </>
   );
