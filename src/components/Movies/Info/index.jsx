@@ -260,10 +260,9 @@ function MovieInfo() {
         <Typography variant="h3" align="center" gutterBottom>
           You might also like
         </Typography>
-        {recommendations ? (
+        {recommendations?.results?.length ? (
           <MovieList
             movies={recommendations.results?.slice(0, 12)}
-            noOfMoives={12}
           />
         ) : (
           <Box>Sorry, nothing found.</Box>
