@@ -129,6 +129,7 @@ function MovieInfo() {
           style={{
             marginTop: 10,
           }}
+          px={2}
         >
           Overview
         </Typography>
@@ -137,15 +138,16 @@ function MovieInfo() {
           style={{
             marginBottom: 10,
           }}
+          px={2}
         >
           {data?.overview}
         </Typography>
 
-        <Typography variant="h5" gutterBottom>
+        <Typography variant="h5" gutterBottom px={2}>
           Top Cast
         </Typography>
 
-        <Grid item container spacing={2}>
+        <Grid item container spacing={2} px={2}>
           {data?.credits?.cast
             ?.map(
               (character, index) => character.profile_path && (
@@ -186,7 +188,7 @@ function MovieInfo() {
           }}
         >
           <div className={classes.buttonsContainer}>
-            <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
+            <Grid item xs={12} sm={6} className={classes.buttonsContainer} px={2}>
               <ButtonGroup size="medium" variant="outlined">
                 <Button
                   target="_blank"
@@ -214,8 +216,8 @@ function MovieInfo() {
               </ButtonGroup>
             </Grid>
 
-            <Grid item xs={12} sm={6} className={classes.buttonsContainer}>
-              <ButtonGroup size="medium" variant="outlined">
+            <Grid item xs={12} sm={6} className={classes.buttonsContainer} pl={2}>
+              <ButtonGroup size="small" variant="outlined">
                 <Button
                   onClick={addToFavorites}
                   endIcon={
