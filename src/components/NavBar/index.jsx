@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AppBar, Avatar, Button, Drawer, IconButton, Toolbar, useMediaQuery } from '@mui/material';
 import { AccountCircle, Brightness4, Brightness7, Menu } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
@@ -10,6 +10,7 @@ import useStyles from './styles';
 import { Search, Sidebar } from '..';
 import { createSessionId, fetchToken, getUserData } from '../../utils';
 import { setUser } from '../../features/auth';
+import { ColorModeContext } from '../../utils/ToggleColorMode';
 
 function Navbar() {
   const [mobileOpen, setMobilePhone] = useState(false);
@@ -17,11 +18,12 @@ function Navbar() {
   const isMobile = useMediaQuery('(max-width:600px)');
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === 'dark';
-  // const isAuthenticated = false;
   const token = localStorage.getItem('token');
   const sessionIdFromLocalStorage = localStorage.getItem('session_id');
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.user);
+
+  const { toggleColorMode } = useContext(ColorModeContext);
 
   useEffect(() => {
     const loginUser = async () => {
@@ -63,7 +65,7 @@ function Navbar() {
             sx={{
               ml: 1,
             }}
-            onClick={() => { }}
+            onClick={toggleColorMode}
           >
             {isDarkMode
               ? <Brightness7 />
