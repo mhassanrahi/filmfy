@@ -8,9 +8,9 @@ import {
   Rating,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   ArrowBack,
@@ -23,6 +23,7 @@ import {
   Theaters,
 } from '@mui/icons-material';
 import {
+  useGetListQuery,
   useGetMovieQuery,
   useGetRecommendationsQuery,
 } from '../../../services/tmdb';
@@ -31,6 +32,7 @@ import genreIcons from '../../../assets/icons';
 import { selectGenreOrCategory } from '../../../features/currentGenreOrCategory';
 // eslint-disable-next-line import/no-cycle
 import { MovieList } from '../..';
+import { addToFavorites as addToFavoritesAPI, addToWatchList as addToWatchListAPI } from '../../../services';
 
 function MovieInfo() {
   const { id } = useParams();
@@ -38,17 +40,46 @@ function MovieInfo() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
+  const [isMovieWatchListed, setIsMovieWatchListed] = useState(false);
+  const { user } = useSelector((state) => state.user);
 
   const { data: recommendations } = useGetRecommendationsQuery({
     id,
     list: '/recommendations',
   });
-  const isMovieFavorited = true;
-  const isMovieWatchListed = true;
+  const { data: favoriteMovies } = useGetListQuery({
+    name: 'favorite/movies',
+    accountId: user.id,
+    sessionId: localStorage.getItem('session_id'),
+    page: 1,
+  });
+  const { data: watchlistMovies } = useGetListQuery({
+    name: 'watchlist/movies',
+    accountId: user.id,
+    sessionId: localStorage.getItem('session_id'),
+    page: 1,
+  });
 
-  const addToFavorites = () => {};
+  const addToFavorites = async () => {
+    await addToFavoritesAPI(user.id, id, !isMovieFavorited);
+    setIsMovieFavorited((prevState) => !prevState);
+  };
 
-  const addToWatchList = () => {};
+  const addToWatchList = async () => {
+    await addToWatchListAPI(user.id, id, !isMovieWatchListed);
+    setIsMovieWatchListed((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    const favoritedMovie = favoriteMovies?.results?.find((movie) => movie.id === data?.id);
+    setIsMovieFavorited(!!favoritedMovie);
+  }, [favoriteMovies, data]);
+
+  useEffect(() => {
+    const watchListedMovie = watchlistMovies?.results?.find((movie) => movie.id === data?.id);
+    setIsMovieWatchListed(!!watchListedMovie);
+  }, [watchlistMovies, data]);
 
   if (isFetching) {
     return (
@@ -188,7 +219,13 @@ function MovieInfo() {
           }}
         >
           <div className={classes.buttonsContainer}>
-            <Grid item xs={12} sm={6} className={classes.buttonsContainer} px={2}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              className={classes.buttonsContainer}
+              px={2}
+            >
               <ButtonGroup size="medium" variant="outlined">
                 <Button
                   target="_blank"
@@ -216,7 +253,13 @@ function MovieInfo() {
               </ButtonGroup>
             </Grid>
 
-            <Grid item xs={12} sm={6} className={classes.buttonsContainer} pl={2}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              className={classes.buttonsContainer}
+              pl={2}
+            >
               <ButtonGroup size="small" variant="outlined">
                 <Button
                   onClick={addToFavorites}
@@ -263,9 +306,7 @@ function MovieInfo() {
           You might also like
         </Typography>
         {recommendations?.results?.length ? (
-          <MovieList
-            movies={recommendations.results?.slice(0, 12)}
-          />
+          <MovieList movies={recommendations.results?.slice(0, 12)} />
         ) : (
           <Box>Sorry, nothing found.</Box>
         )}
