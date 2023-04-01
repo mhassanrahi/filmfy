@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import {
@@ -13,7 +13,7 @@ import {
   ListSubheader,
 } from '@mui/material';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useStyles from './styles';
 import RedLogo from '../../assets/images/filmflyRed.png';
 import BlueLogo from '../../assets/images/filmFlyBlue.png';
@@ -36,12 +36,21 @@ const categories = [
   },
 ];
 
-function Sidebar() {
+function Sidebar({
+  setMobilePhone,
+}) {
+  const { genreIdOrCategoryName } = useSelector(
+    (state) => state.currentGenreOrCategory,
+  );
   const dispatch = useDispatch();
   const theme = useTheme();
   const classes = useStyles();
   const isDarkMode = theme.palette.mode === 'dark';
   const { data, isFetching } = useGetGenresQuery();
+
+  useEffect(() => {
+    setMobilePhone(false);
+  }, [genreIdOrCategoryName]);
 
   return (
     <>
