@@ -10,3 +10,4 @@ export { default as Movie } from './Movies/Movie';
 export { default as Search } from './Search';
 export { default as Pagination } from './Pagination';
 export { default as RatedCard } from './RatedCard';
+export { default as Featured } from './Featured';
