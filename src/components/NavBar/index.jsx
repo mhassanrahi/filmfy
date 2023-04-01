@@ -91,7 +91,7 @@ function Navbar() {
                       height: 30,
                     }}
                     alt="Profile Photo"
-                    src="https://ionicframework.com/docs/img/demos/avatar.svg"
+                    src={`https://www.themoviedb.org/t/p/w64_and_h64_face${user?.avatar?.tmbd?.avatar_path}`}
                   />
                 </Button>
               )
