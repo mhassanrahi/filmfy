@@ -1,6 +1,8 @@
 # Filmfly
+![Movie App Screenshot](https://i.postimg.cc/GpYwX7MR/filmfly.png)
 
-Filmfly is a web application that allows users to browse movies, view information about them, and perform various actions such as adding movies to favorites or watchlist, searching for movies, and more.
+Filmfly is a web application that allows you to browse movies by category, search for your favorite movies, and see detailed information about each movie. You can also add movies to your favorites or watchlist, see movie trailers, and even use voice commands with Alan AI assistant.
+
 
 ## Features
 
