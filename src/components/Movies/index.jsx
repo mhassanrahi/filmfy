@@ -3,12 +3,12 @@ import { Box, CircularProgress, Typography, useMediaQuery } from '@mui/material'
 import { useSelector } from 'react-redux';
 import { useGetMoviesQuery } from '../../services/tmdb';
 // eslint-disable-next-line import/no-cycle
-import { MovieList, Pagination } from '..';
+import { MovieList, Pagination, Featured } from '..';
 
 function Movies() {
   const [page, setPage] = useState(1);
   const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));
-  const moviesToShow = lg ? 16 : 18;
+  const moviesToShow = lg ? 17 : 19;
   const { genreIdOrCategoryName, searchQuery } = useSelector(
     (state) => state.currentGenreOrCategory,
   );
@@ -44,7 +44,10 @@ function Movies() {
 
   return (
     <div>
-      <MovieList movies={data?.results?.slice(0, moviesToShow)} />
+      <Featured
+        movie={data?.results[0]}
+      />
+      <MovieList movies={data?.results?.slice(1, moviesToShow)} />
       <Pagination
         page={page}
         setPage={setPage}
