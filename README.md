@@ -3,6 +3,9 @@
 
 Filmfly is a web application that allows you to browse movies by category, search for your favorite movies, and see detailed information about each movie. You can also add movies to your favorites or watchlist, see movie trailers, and even use voice commands with Alan AI assistant.
 
+## Demo
+
+Click [here](https://thefilmfly.netlify.app/) to see a live demo of the application.
 
 ## Features
 
